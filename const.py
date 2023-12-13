@@ -1,7 +1,14 @@
+import os
+import pathlib
+
+SETTING_DIR = (pathlib.Path(os.getenv('LOCALAPPDATA'))) / 'SquadGame' / 'Saved' / 'Config' / 'WindowsNoEditor'
+
+
 SEED_GAME_SETTINGS = """
-;seed
+;{executable_path}
+;SEED_MODE
 [D3DRHIPreference]
-bUseD3D12InGame=False
+bUseD3D12InGame={dx}
 
 [/Script/Squad.SQGameUserSettings]
 PlayerNamePrefix="{tag}"
