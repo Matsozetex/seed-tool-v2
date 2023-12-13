@@ -3,10 +3,10 @@ from file_handler import FileHandler
 from const import SETTING_DIR
 
 def main():
-    SeedFile = SeedIniFile(False, "SEED_MODE", "[ABG]")
+    SeedFile = SeedIniFile(False,  "[ABG]")
     fh = FileHandler()
+    fh.change_file_contents()
 
-    fh.create_normal_file()
 
 
 if __name__ == "__main__":

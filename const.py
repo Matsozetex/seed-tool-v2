@@ -3,6 +3,15 @@ import pathlib
 
 SETTING_DIR = (pathlib.Path(os.getenv('LOCALAPPDATA'))) / 'SquadGame' / 'Saved' / 'Config' / 'WindowsNoEditor'
 
+NORMAL_NAME = "NormalGameUserSettings.ini"
+
+SEED_NAME = "SeedGameUserSettings.ini"
+
+GAME_NAME = 'GameUserSettings.ini'
+
+SEED_MODE = "SEED_MODE"
+
+NORMAL_MODE = "NORMAL_MODE"
 
 SEED_GAME_SETTINGS = """
 ;{executable_path}
