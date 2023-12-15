@@ -1,17 +1,9 @@
 from const import SETTING_DIR, SEED_NAME, GAME_NAME, NORMAL_NAME, NORMAL_MODE, SEED_MODE
 from os.path import isfile
 
-def check_ini_type() -> str:
-        with open(SETTING_DIR / GAME_NAME) as file:
-            file_contents = file.read()
-        if( file_contents.find(SEED_MODE) >= 0):
-            ini_type = SEED_MODE
-        else:
-            ini_type = NORMAL_MODE
-        return ini_type
+
 
 class FileHandler: 
-
     def __init__(self) -> None:
         pass
 
@@ -23,11 +15,11 @@ class FileHandler:
             result = True
         return result
 
-    def update_normal_file(self) -> bool:
+    def update_normal_file(self, file_type) -> bool:
         """
         Check if active == normal. Then whether it exists, if it exists, rewrite it, if it doesn't make and write to it.
         """
-        if(check_ini_type() == NORMAL_MODE):
+        if(file_type == NORMAL_MODE):
             # If normal file already exists, we want to write
             if (isfile(SETTING_DIR / NORMAL_NAME)):
                 mode = "w"
@@ -44,8 +36,8 @@ class FileHandler:
         return result
     
 
-    def update_seed_file(self, file_content) -> bool:
-        if(check_ini_type() == SEED_MODE):
+    def update_seed_file(self, file_content, file_type) -> bool:
+        if(file_type == SEED_MODE):
             if(isfile(SETTING_DIR / SEED_NAME)):
                 result = False
             else:
