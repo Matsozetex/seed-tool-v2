@@ -16,10 +16,11 @@ def main():
     ini_dir = FileHandler()
 
     norm_exist = ini_dir.does_ini_file_exist("normal")
-    seed_exist = ini_dir.does_ini_file_exist("seed")
-    
-    agreement = input("I confirm that I am verified to use this tool and am ok with any result of being unverified. Enter [Y]es or [N]o: ")
-
+    seed_exist = ini_dir.does_ini_file_exist("seed")   
+    agreement = input(
+        """I confirm that I am verified to use this tool 
+        and am ok with any result of being unverified. 
+        Enter [Y]es or [N]o: """)
     if agreement == "N":
         os._exit(1)
     elif agreement == "Y":
@@ -58,6 +59,8 @@ def main():
                 run_squad()
             case _:
                 print("Invalid option.")
+        norm_exist = ini_dir.does_ini_file_exist("normal")
+        seed_exist = ini_dir.does_ini_file_exist("seed")
         print(menu)
         count = count + 1
 

@@ -17,13 +17,13 @@ def get_verified_users() -> list:
     Retrieves list of verified users from a verfication server.
     """
     try:
-        response  = requests.get(VERIFICATION_SERVER)
+        response  = requests.get(VERIFICATION_SERVER, timeout=5)
         verified_users = response.text.split(",")
         verified_users.pop(-1)
         for index,value in enumerate(verified_users):
             verified_users[index] = value.replace("\n","")
     except ConnectionError:
-        logging.error("Could not connecto verfication service!")
+        logging.error("Could not connect to verfication service!")
         os._exit(1)
     return verified_users
 
