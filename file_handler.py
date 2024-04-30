@@ -1,66 +1,91 @@
-from const import SETTING_DIR, SEED_NAME, GAME_NAME, NORMAL_NAME, NORMAL_MODE, SEED_MODE
-from os.path import isfile
+import os
+import const
+import logging
+import shutil
 
+class FileHandler:
+    """
+    1. Check the current file type.
 
+    2. Switch files.
 
-class FileHandler: 
+    3. Create/Update the normal file.
+
+    4. Create seed file.
+    """
     def __init__(self) -> None:
-        pass
+        self.dir = const.DIR
+        self.game = os.path.join(const.DIR, const.GAME)
+        self.seed = os.path.join(const.DIR, const.SEED)
+        self.normal = os.path.join(const.DIR, const.NORMAL)
+        self.settings = const.SETTINGS
 
-    def create_seed_file(self,file_content) -> bool:
-        # For the case of a new user with no seed file, make a new one 
-        result = False
-        with open(SETTING_DIR / SEED_NAME, "x") as seed_file:
-            seed_file.write(file_content)
-            result = True
-        return result
-
-    def update_normal_file(self, file_type) -> bool:
+    
+    def is_seed_ini(self) -> bool:
         """
-        Check if active == normal. Then whether it exists, if it exists, rewrite it, if it doesn't make and write to it.
+        Check if the current game ini is a seed ini.
         """
-        if(file_type == NORMAL_MODE):
-            # If normal file already exists, we want to write
-            if (isfile(SETTING_DIR / NORMAL_NAME)):
-                mode = "w"
-            # If normal file doesn't exist, we want to create
-            else:
-                mode = "x"
-            with open(SETTING_DIR / GAME_NAME, "r") as file:
-                    file_contents = file.read()
-                    with open(SETTING_DIR / NORMAL_NAME, mode) as norm_file:
-                        norm_file.write(file_contents)
-            result = True
-        else:
-            result = False
-        return result
-    
+        is_seed = False
+        with open(self.game, "r", encoding="UTF-8") as file:
+            if "SEED_MODE" in file:
+                is_seed = True
+        return is_seed
 
-    def update_seed_file(self, file_content, file_type) -> bool:
-        if(file_type == SEED_MODE):
-            if(isfile(SETTING_DIR / SEED_NAME)):
-                result = False
-            else:
-                with open(SETTING_DIR / SEED_NAME, "w") as seed_file:
-                    seed_file.write(file_content)
-            result = True
+    def does_ini_file_exist(self, mode) -> bool:
+        """
+        Check if a file of a specified type exists.
+        """
+        does_exist = False
+        if mode is "seed":
+            does_exist = os.path.exists(self.seed)
+        elif mode is "normal":
+            does_exist = os.path.exists(self.normal)
         else:
-            result = False
-        # Update current stored seed file with new inputs from user
-        return result
-    
-    def change_file_contents(self, new_mode) -> bool:
-        if(new_mode == SEED_MODE):
-            file_to_copy = SEED_NAME
+            does_exist = False
+            logging.warning("Inputted mode does not exist: %s", mode)
+
+        return does_exist
+
+    def switch_ini(self, mode: str) -> None:
+        """
+        Switch between modes.
+        """
+        if mode.lower() in "normal":
+            new_ini_path = self.normal
+        elif mode.lower() in "seed":
+            new_ini_path = self.seed
         else:
-            file_to_copy = NORMAL_NAME
-        try:
-            with open(SETTING_DIR / file_to_copy, 'r')  as file_to_read:
-                file_contents = file_to_read.read()
-                with open (SETTING_DIR / GAME_NAME, 'w') as file_to_write:
-                    file_to_write.write(file_contents)
-                    result = True
-        except:
-            result = False
-        return result
-    
+            logging.error("Invalid mode of: %s", mode)
+            os._exit(1)
+
+        if(os.path.exists(self.normal) and os.path.exists(self.seed)):
+            os.remove(self.game)
+            shutil.copy(new_ini_path, self.game)
+        else:
+            logging.warning("Seed or Normal file is missing, fix it!")
+
+    def create_normal_ini(self):
+        """
+        Creates new normal file or updates it.
+        """
+        if is_seed_ini(self.game) is False:
+            shutil.copy(self.game, self.normal)
+        else:
+            logging.warning("Current mode is seed, cannot create new file!")
+        
+    def create_seed_ini(self):
+        """
+        Creates new SEED file if one doesn't already exist.
+        """
+        with open(self.seed, "w", encoding="UTF-8") as file:
+            file.write(self.settings)
+
+def is_seed_ini(file_path) -> bool:
+    """
+    Check if the current game ini is a seed ini.
+    """
+    is_seed = False
+    with open(file_path, "r", encoding="UTF-8") as file:
+        if "SEED_MODE" in file:
+            is_seed = True
+    return is_seed

@@ -1,26 +1,23 @@
 import os
 import pathlib
 
-SETTING_DIR = (pathlib.Path(os.getenv('LOCALAPPDATA'))) / 'SquadGame' / 'Saved' / 'Config' / 'WindowsNoEditor'
+DIR = (pathlib.Path(os.getenv('LOCALAPPDATA'))) / 'SquadGame' / 'Saved' / 'Config' / 'WindowsNoEditor'
 
-NORMAL_NAME = "NormalGameUserSettings.ini"
+NORMAL = "NormalGameUserSettings.ini"
 
-SEED_NAME = "SeedGameUserSettings.ini"
+SEED = "SeedGameUserSettings.ini"
 
-GAME_NAME = 'GameUserSettings.ini'
+GAME = 'GameUserSettings.ini'
 
-SEED_MODE = "SEED_MODE"
 
-NORMAL_MODE = "NORMAL_MODE"
 
-SEED_GAME_SETTINGS = """
-;{executable_path}
+SETTINGS = """
 ;SEED_MODE
 [D3DRHIPreference]
-bUseD3D12InGame={dx}
+bUseD3D12InGame=False
 
 [/Script/Squad.SQGameUserSettings]
-PlayerNamePrefix="{tag}"
+PlayerNamePrefix="SEED"
 MasterVolume=0.000000
 EffectsVolume=0.000000
 UIVolume=0.000000
