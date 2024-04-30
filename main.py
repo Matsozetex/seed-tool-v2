@@ -18,9 +18,15 @@ def main():
     norm_exist = ini_dir.does_ini_file_exist("normal")
     seed_exist = ini_dir.does_ini_file_exist("seed")   
     agreement = input(
-        """I confirm that I am verified to use this tool 
+        """
+
+       ===============================================
+        I confirm that I am verified to use this tool 
         and am ok with any result of being unverified. 
-        Enter [Y]es or [N]o: """)
+       ===============================================
+        
+       Enter [Y]es if you agree or [N]o if you do not: 
+        """)
     if agreement == "N":
         os._exit(1)
     elif agreement == "Y":
