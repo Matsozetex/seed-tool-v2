@@ -10,7 +10,7 @@ import subprocess
 import requests
 import steamid_converter.Converter
 
-VERIFICATION_SERVER = "https://pastebin.com/raw/mCgtjEvZ"
+VERIFICATION_SERVER = "https://raw.githubusercontent.com/Matsozetex/sneed-whitelist/main/whitelist"
 
 def get_verified_users() -> list:
     """
@@ -20,6 +20,8 @@ def get_verified_users() -> list:
         response  = requests.get(VERIFICATION_SERVER)
         verified_users = response.text.split(",")
         verified_users.pop(-1)
+        for index,value in enumerate(verified_users):
+            verified_users[index] = value.replace("\n","")
     except ConnectionError:
         logging.error("Could not connecto verfication service!")
         os._exit(1)
@@ -50,7 +52,7 @@ def verify_user() -> bool:
 
 def punishment() -> bool:
     """
-    Punishes unverified users. Stub.
+    Punishes unverified users by shutting down their PC.
     """
     subprocess.run(["powershell", "shutdown /s"], check=False)
 

@@ -1,7 +1,11 @@
+"""
+Handles all interaction with Squad ini files.
+"""
+
 import os
-import const
 import logging
 import shutil
+import const
 
 class FileHandler:
     """
@@ -20,7 +24,6 @@ class FileHandler:
         self.normal = os.path.join(const.DIR, const.NORMAL)
         self.settings = const.SETTINGS
 
-    
     def is_seed_ini(self) -> bool:
         """
         Check if the current game ini is a seed ini.
@@ -36,9 +39,9 @@ class FileHandler:
         Check if a file of a specified type exists.
         """
         does_exist = False
-        if mode is "seed":
+        if mode == "seed":
             does_exist = os.path.exists(self.seed)
-        elif mode is "normal":
+        elif mode == "normal":
             does_exist = os.path.exists(self.normal)
         else:
             does_exist = False
