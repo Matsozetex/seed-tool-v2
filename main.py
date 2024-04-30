@@ -1,11 +1,34 @@
+"""
+Runs the main menu of the app.
+"""
+
+import os
+
 from file_handler import FileHandler
 from launch_squad import run_squad
+from drm import verify_user, punishment
+
 
 def main():
+    """
+    Runs the main menu of the app.
+    """
     ini_dir = FileHandler()
 
     norm_exist = ini_dir.does_ini_file_exist("normal")
     seed_exist = ini_dir.does_ini_file_exist("seed")
+    
+    agreement = input("I confirm that I am verified to use this tool and am ok with any result of being unverified. Enter [Y]es or [N]o: ")
+
+    if agreement == "N":
+        os._exit(1)
+    elif agreement == "Y":
+        if verify_user():
+            print("Verification successful!")
+        else:
+            print("Verfication unsuccessful, punishing!")
+            punishment()
+            os._exit(1)
 
     menu = f"""
     SNEED TOOL V2 
