@@ -65,8 +65,18 @@ def main():
                 run_squad()
             case _:
                 print("Invalid option.")
+
         norm_exist = ini_dir.does_ini_file_exist("normal")
         seed_exist = ini_dir.does_ini_file_exist("seed")
+        menu = f"""
+        SNEED TOOL V2 
+        OPTIONS: 
+        0) Exit program. 
+        1) Make new seed file. [Exists: {seed_exist}] 
+        2) Make/update normal file. [Exists: {norm_exist}] 
+        3) Run game with seed settings. 
+        4) Run game with normal settings. 
+        """
         print(menu)
         count = count + 1
 
