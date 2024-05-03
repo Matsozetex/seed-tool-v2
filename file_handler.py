@@ -75,7 +75,7 @@ class FileHandler:
             shutil.copy(self.game, self.normal)
         else:
             logging.warning("Current mode is seed, cannot create new file!")
-        
+
     def create_seed_ini(self):
         """
         Creates new SEED file if one doesn't already exist.
