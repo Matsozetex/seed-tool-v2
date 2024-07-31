@@ -9,30 +9,34 @@ import sys
 from file_handler import FileHandler
 from launch_squad import run_squad
 from drm import verify_user, punishment
+from const import CRACKED
 
 def agreement_menu() -> None:
     """
     Handles the verification sub-menu and any related punishments.
     """
-    agreement = input(
-            """
-        ===============================================
-         I confirm that I am verified to use this tool 
-         and am ok with any result of being unverified. 
-        ===============================================
-            
-        Enter [Y]es if you agree or [N]o if you do not: 
-            """)
-    agreement_handler(agreement)
+    if not CRACKED:
+        agreement = input(
+                """
+            ===============================================
+            I confirm that I am verified to use this tool 
+            and am ok with any result of being unverified. 
+            ===============================================
+                
+            Enter [yes] if you agree or [no] if you do not: 
+                """)
+        agreement_handler(agreement)
 
 
-def agreement_handler(choice: str) -> None:
+
+
+def agreement_handler(choice: str):
     """
     Handles program flow with agreements.
     """
-    if choice.lower() in "no":
+    if choice.lower() == "no":
         os._exit(1)
-    elif choice.lower() in "yes":
+    elif choice.lower() == "yes":
         if verify_user():
             print("Verification successful!")
         else:
@@ -83,9 +87,11 @@ def menu_handler(ini_dir: FileHandler):
             case "3":
                 ini_dir.switch_ini("seed")
                 print(run_squad().format('seed'))
+                break
             case "4":
                 ini_dir.switch_ini("normal")
                 print(run_squad().format('normal'))
+                break
             case _:
                 print("Invalid option.")
         status = get_file_status(ini_dir)
@@ -101,12 +107,13 @@ def argument_handler()-> None:
             prog="seedtoolv2",
             description="a program that manages alternate setting profiles for Squad seeding"
         )
-    parser.add_argument(
-        'agree',
-        type=str,
-        choices=['yes', 'no', 'y', 'n'],
-        help='whether you as a user are authorised to use this tool.'
-        )
+    if not CRACKED:
+        parser.add_argument(
+            'agree',
+            type=str,
+            choices=['yes', 'no'],
+            help='whether you as a user are authorised to use this tool.'
+            )
     group = parser.add_argument_group(
         'file operation commands', 
         'commands that execute file operations to faciltiate squad seeding'
@@ -143,7 +150,8 @@ def main():
     ini_dir = FileHandler()
     if len(sys.argv) > 1:
         args = argument_handler()
-        agreement_handler(args.agree)
+        if not CRACKED:
+            agreement_handler(args.agree)
         if args.make is not None:
             if args.make == 'normal':
                 ini_dir.create_normal_ini()

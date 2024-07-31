@@ -1,6 +1,8 @@
 import os
 import pathlib
 
+CRACKED = True
+
 DIR = (pathlib.Path(os.getenv('LOCALAPPDATA'))) / 'SquadGame' / 'Saved' / 'Config' / 'WindowsNoEditor'
 
 NORMAL = "NormalGameUserSettings.ini"
