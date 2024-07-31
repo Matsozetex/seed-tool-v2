@@ -86,11 +86,13 @@ def menu_handler(ini_dir: FileHandler):
                 ini_dir.create_normal_ini()
             case "3":
                 ini_dir.switch_ini("seed")
-                print(run_squad().format('seed'))
+                run_squad()
+                print("Running squad in Seed mode")
                 break
             case "4":
                 ini_dir.switch_ini("normal")
-                print(run_squad().format('normal'))
+                run_squad()
+                print("Running squad in Seed mode")
                 break
             case _:
                 print("Invalid option.")
@@ -157,9 +159,10 @@ def main():
                 ini_dir.create_normal_ini()
             elif args.make == 'seed':
                 ini_dir.create_seed_ini()
-        elif args.run is not None:
+        elif args.run is not None and (args.run == 'normal' or args.run == 'seed'):
             ini_dir.switch_ini(args.run)
-            print(run_squad().format(args.run))
+            run_squad()
+            print(f"Running squad in {args.run} mode")
         elif args.status is not None:
             norm_exist = ini_dir.does_ini_file_exist("normal")
             seed_exist = ini_dir.does_ini_file_exist("seed")
