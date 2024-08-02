@@ -8,41 +8,6 @@ import sys
 
 from file_handler import FileHandler
 from launch_squad import run_squad
-from drm import verify_user, punishment
-from const import CRACKED
-
-def agreement_menu() -> None:
-    """
-    Handles the verification sub-menu and any related punishments.
-    """
-    if not CRACKED:
-        agreement = input(
-                """
-            ===============================================
-            I confirm that I am verified to use this tool 
-            and am ok with any result of being unverified. 
-            ===============================================
-                
-            Enter [yes] if you agree or [no] if you do not: 
-                """)
-        agreement_handler(agreement)
-
-
-
-
-def agreement_handler(choice: str):
-    """
-    Handles program flow with agreements.
-    """
-    if choice.lower() == "no":
-        os._exit(1)
-    elif choice.lower() == "yes":
-        if verify_user():
-            print("Verification successful!")
-        else:
-            print("Verfication unsuccessful, punishing!")
-            punishment()
-            os._exit(1)
 
 def get_file_status(ini_dir: FileHandler) -> list:
     """
@@ -71,7 +36,6 @@ def menu_handler(ini_dir: FileHandler):
     """
     Handles the looping main menu of the application.
     """
-    agreement_menu()
     status = get_file_status(ini_dir)
     print_menu(status['s'], status['n'])
     count = 0
@@ -109,13 +73,6 @@ def argument_handler()-> None:
             prog="seedtoolv2",
             description="a program that manages alternate setting profiles for Squad seeding"
         )
-    if not CRACKED:
-        parser.add_argument(
-            'agree',
-            type=str,
-            choices=['yes', 'no'],
-            help='whether you as a user are authorised to use this tool.'
-            )
     group = parser.add_argument_group(
         'file operation commands', 
         'commands that execute file operations to faciltiate squad seeding'
@@ -152,8 +109,6 @@ def main():
     ini_dir = FileHandler()
     if len(sys.argv) > 1:
         args = argument_handler()
-        if not CRACKED:
-            agreement_handler(args.agree)
         if args.make is not None:
             if args.make == 'normal':
                 ini_dir.create_normal_ini()

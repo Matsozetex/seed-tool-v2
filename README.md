@@ -40,4 +40,4 @@ Compilation is easy, follow these steps:
 1. Install Python version 3.10 or greater.
 2. Install pyinstaller using pip(3).
 3. Run the following pyinstaller command within the directory of main.py:
-```pyinstaller -F --paths. .\main.py ```
+```pyinstaller -F --paths . .\main.py ```
