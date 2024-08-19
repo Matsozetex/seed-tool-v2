@@ -1,8 +1,14 @@
-import pyautogui
+"""
+Handles the automation via mouse seeding option.
+"""
 from time import sleep
+import pyautogui
 from const import GPX, GPY
 
 def get_screen_measurements() -> list:
+    """
+    Gets screen measurement dimensions.
+    """
     size =  pyautogui.size()
     centre = [int(i/2) for i in size]
     centre_x = centre[0]
@@ -13,6 +19,9 @@ def get_screen_measurements() -> list:
 # Relative movements
 
 def make_movements(server_name: str) -> None:
+    """
+    Makes movements on seed game UI.
+    """
     centres = get_screen_measurements()
     centre_x = centres[0]
     centre_y = centres[1]
@@ -28,7 +37,7 @@ def make_movements(server_name: str) -> None:
         ("click",2)
         ]
     pyautogui.moveTo(centre_x, centre_y)
-    for count,step in enumerate(steps):
+    for step in steps:
         if  "click" in step:
             if 2 in step:
                 pyautogui.doubleClick()

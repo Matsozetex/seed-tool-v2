@@ -5,11 +5,10 @@ Runs the seeding application.
 import os
 import argparse
 import sys
-
+from time import sleep
 from file_handler import FileHandler
 from launch_squad import run_squad
 from mouse import make_movements
-from time import sleep
 from const import LOAD_TIMER
 
 def get_file_status(ini_dir: FileHandler) -> list:
@@ -157,7 +156,7 @@ def main():
         elif args.auto is not None:
             ini_dir.switch_ini('seed')
             run_squad()
-            print(f"Running squad in seed mode")
+            print("Running squad in seed mode")
             sleep(LOAD_TIMER)
             make_movements(ini_dir.get_server_name())
     else:
