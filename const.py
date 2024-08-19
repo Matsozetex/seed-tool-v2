@@ -11,10 +11,12 @@ SEED = "SeedGameUserSettings.ini"
 
 GAME = 'GameUserSettings.ini'
 
+GPY = 368
+GPX = 512
 
+LOAD_TIMER = 60
 
-SETTINGS = """
-;SEED_MODE
+SETTINGS = """;SEED_MODE
 [D3DRHIPreference]
 bUseD3D12InGame=False
 

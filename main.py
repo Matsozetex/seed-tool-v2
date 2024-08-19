@@ -8,15 +8,19 @@ import sys
 
 from file_handler import FileHandler
 from launch_squad import run_squad
+from mouse import make_movements
+from time import sleep
+from const import LOAD_TIMER
 
 def get_file_status(ini_dir: FileHandler) -> list:
     """
     Retrieves file statuses.
     """
     return {'s': ini_dir.does_ini_file_exist("seed"),
-            'n': ini_dir.does_ini_file_exist("normal")}
+            'n': ini_dir.does_ini_file_exist("normal"),
+            'h': ini_dir.get_server_name()}
 
-def print_menu(seed, normal) -> None:
+def print_menu(seed, normal, server) -> None:
     """
     Updates the menu with the status of the seed and normal files.
     """
@@ -26,8 +30,10 @@ def print_menu(seed, normal) -> None:
         0) Exit program. 
         1) Make new seed file. [Exists: {seed}] 
         2) Make/update normal file. [Exists: {normal}] 
-        3) Run game with seed settings. 
-        4) Run game with normal settings. 
+        3) Set desired server to run. [Server: {server}]
+        4) Run game with auto-seed settings.
+        5) Run game with seed settings. 
+        6) Run game with normal settings. 
         """
     print(menu)
 
@@ -37,7 +43,7 @@ def menu_handler(ini_dir: FileHandler):
     Handles the looping main menu of the application.
     """
     status = get_file_status(ini_dir)
-    print_menu(status['s'], status['n'])
+    print_menu(status['s'], status['n'], status['h'])
     count = 0
     while True and count < 20:
         user_input = input("Option: ")
@@ -49,11 +55,20 @@ def menu_handler(ini_dir: FileHandler):
             case "2":
                 ini_dir.create_normal_ini()
             case "3":
+                ini_dir.update_desired_server()    
+            case "4":
+                ini_dir.switch_ini("seed")
+                run_squad()
+                print("Running squad in Seed mode")
+                sleep(LOAD_TIMER)
+                make_movements(ini_dir.get_server_name())
+                break
+            case "5":
                 ini_dir.switch_ini("seed")
                 run_squad()
                 print("Running squad in Seed mode")
                 break
-            case "4":
+            case "6":
                 ini_dir.switch_ini("normal")
                 run_squad()
                 print("Running squad in Seed mode")
@@ -61,7 +76,7 @@ def menu_handler(ini_dir: FileHandler):
             case _:
                 print("Invalid option.")
         status = get_file_status(ini_dir)
-        print_menu(status['s'], status['n'])
+        print_menu(status['s'], status['n'], status['h'])
         count = count + 1
 
 
@@ -99,6 +114,20 @@ def argument_handler()-> None:
         action='store_const',
         const=1
     )
+    exclusive_group.add_argument(
+        '-a',
+        '--auto',
+        help='run the game with auto seed modes',
+        action='store_const',
+        const=1
+    )
+    exclusive_group.add_argument(
+        '-M',
+        '--host',
+        help='sets the default server to connect to, the more accurate name the better',
+        action='store_const',
+        const=1
+    )
     args = parser.parse_args()
     return args
 
@@ -118,10 +147,19 @@ def main():
             ini_dir.switch_ini(args.run)
             run_squad()
             print(f"Running squad in {args.run} mode")
+        elif args.host is not None:
+            ini_dir.update_desired_server()   
         elif args.status is not None:
             norm_exist = ini_dir.does_ini_file_exist("normal")
             seed_exist = ini_dir.does_ini_file_exist("seed")
-            print(f'Seed file status: {seed_exist} | Normal file status: {norm_exist}')
+            server_name = ini_dir.get_server_name()
+            print(f'Seed file status: {seed_exist} | Normal file status: {norm_exist} | Current desired server: {server_name}')
+        elif args.auto is not None:
+            ini_dir.switch_ini('seed')
+            run_squad()
+            print(f"Running squad in seed mode")
+            sleep(LOAD_TIMER)
+            make_movements(ini_dir.get_server_name())
     else:
         try:
             menu_handler(ini_dir)
