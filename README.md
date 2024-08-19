@@ -21,8 +21,10 @@ To run the tool, simply double click on the tool in File Explorer or run the too
 - 0: Exit the tool
 - 1: Make new seed file **(Exist: True is Required)**: Makes a settings file with low power options enabled.
 - 2: Make/update normal file **(Exist: True is Required)**: Backups your settings file with your normal options.
-- 3: Run the game with seed settings: Launches Squad with low power options enabled.
-- 4: Run the game with normal settings: Launches Squad with normal options.
+- 3: Set desired server to run **(Server: Set is required for auto seed)**: Sets the desired server to connect to via auto seed.
+- 4: Run game with auto-seed settings: Launches Squad with low power options enabled with auto server joining.
+- 5: Run the game with seed settings: Launches Squad with low power options enabled.
+- 6: Run the game with normal settings: Launches Squad with normal options.
 
 ## Advanced Topics
 ### Adding to Path
