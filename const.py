@@ -16,7 +16,8 @@ GPX = 512
 
 LOAD_TIMER = 60
 
-SETTINGS = """;SEED_MODE
+SETTINGS = """server_name=
+;SEED_MODE
 [D3DRHIPreference]
 bUseD3D12InGame=False
 

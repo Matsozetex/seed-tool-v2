@@ -74,6 +74,7 @@ class FileHandler:
         with open(self.seed, "w", encoding="UTF-8") as file:
             file.write(self.settings)
 
+
     def update_desired_server(self) -> None:
         """
         Prefixes desired server to the seed file.
@@ -101,7 +102,10 @@ class FileHandler:
         with open(self.seed, "r+", encoding="UTF-8") as file:
             first_line=file.readline()
             match = re.search("^server_name=(.*)$", first_line)
-            return match.group()[12:]
+            if match is not None:
+                return match.group()[12:]
+            else:
+                return 'None'
 
 def is_seed_ini(file_path) -> bool:
     """
@@ -109,6 +113,6 @@ def is_seed_ini(file_path) -> bool:
     """
     is_seed = False
     with open(file_path, "r", encoding="UTF-8") as file:
-        if "SEED_MODE" in file:
+        if ";SEED_MODE" in file:
             is_seed = True
     return is_seed
