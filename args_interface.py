@@ -24,7 +24,7 @@ def argument_handler()-> None:
         '--make', 
         type=str,
         choices=['seed', 'normal'],
-        help='make or update the alternate profiles'
+        help='make or update/reset the alternate profiles'
         )
     exclusive_group.add_argument(
         '-r', 

@@ -1,4 +1,9 @@
+"""
+Defines behaviour of CLI interface.
+"""
+
 import user_actions
+
 from file_handler import FileHandler
 
 def print_menu(seed, normal, server) -> None:
@@ -9,9 +14,9 @@ def print_menu(seed, normal, server) -> None:
         SNEED TOOL V2 
         OPTIONS: 
         0) Exit program. 
-        1) Make new seed file. [Exists: {seed}] 
+        1) Make/reset seed file. [Exists: {seed}] 
         2) Make/update normal file. [Exists: {normal}] 
-        3) Set desired server to run. [Server: {server}]
+        3) Set desired server to auto-seed. [Server: {server}]
         4) Run game with auto-seed settings.
         5) Run game with seed settings. 
         6) Run game with normal settings. 
