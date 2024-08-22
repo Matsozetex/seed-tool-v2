@@ -6,6 +6,7 @@ import os
 import logging
 import shutil
 import const
+import re
 
 class FileHandler:
     """
@@ -23,16 +24,6 @@ class FileHandler:
         self.seed = os.path.join(const.DIR, const.SEED)
         self.normal = os.path.join(const.DIR, const.NORMAL)
         self.settings = const.SETTINGS
-
-    def is_seed_ini(self) -> bool:
-        """
-        Check if the current game ini is a seed ini.
-        """
-        is_seed = False
-        with open(self.game, "r", encoding="UTF-8") as file:
-            if "SEED_MODE" in file:
-                is_seed = True
-        return is_seed
 
     def does_ini_file_exist(self, mode) -> bool:
         """
@@ -67,7 +58,7 @@ class FileHandler:
         else:
             logging.warning("Seed or Normal file is missing, fix it!")
 
-    def create_normal_ini(self):
+    def create_normal_ini(self) -> None:
         """
         Creates new normal file or updates it.
         """
@@ -83,12 +74,45 @@ class FileHandler:
         with open(self.seed, "w", encoding="UTF-8") as file:
             file.write(self.settings)
 
+
+    def update_desired_server(self) -> None:
+        """
+        Prefixes desired server to the seed file.
+        """
+        server = input("Enter your desired server name >> ")
+        # Find if servername string exists, if so, remove it.
+        with open(self.seed, "r+", encoding="UTF-8") as file:
+            first_line = file.readline()
+            if re.search('^server_name=(.*)$', first_line):
+                data = file.read()
+                file.seek(0)
+                file.write(data)
+                file.truncate()
+
+        server_definition = f"server_name={server}"
+        with open(self.seed, "r+", encoding="UTF-8") as file:
+            content = file.read()
+            file.seek(0,0)
+            file.write(server_definition.rstrip('\r\n') + '\n' + content)
+
+    def get_server_name(self) -> str:
+        """
+        Finds the desired server name
+        """
+        with open(self.seed, "r+", encoding="UTF-8") as file:
+            first_line=file.readline()
+            match = re.search("^server_name=(.*)$", first_line)
+            if match is not None:
+                return match.group()[12:]
+            else:
+                return 'None'
+
 def is_seed_ini(file_path) -> bool:
     """
     Check if the current game ini is a seed ini.
     """
     is_seed = False
     with open(file_path, "r", encoding="UTF-8") as file:
-        if "SEED_MODE" in file:
+        if ";SEED_MODE" in file:
             is_seed = True
     return is_seed
