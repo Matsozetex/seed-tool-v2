@@ -5,8 +5,6 @@ import pathlib
 
 DIR = (pathlib.Path(os.getenv('LOCALAPPDATA'))) / 'SquadGame' / 'Saved' / 'Config' / 'WindowsNoEditor'
 
-MOVIES = ["squad_intro_movie", "squad_intro_movie_2",  "welcome_to_squad"]
-
 NORMAL = "NormalGameUserSettings.ini"
 
 SEED = "SeedGameUserSettings.ini"

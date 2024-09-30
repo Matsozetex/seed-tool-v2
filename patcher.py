@@ -5,8 +5,6 @@ import winreg
 import pathlib
 import os
 import vdf
-from const import MOVIES
-
 
 def patch_movies() -> bool:
     """
@@ -16,7 +14,7 @@ def patch_movies() -> bool:
         libraryfolders_config_location = get_steam_config_location()
         squad_install_location = get_squad_install_path(libraryfolders_config_location)
         squad_movies_location = get_squad_movie_path(squad_install_location)
-        rename_movies(squad_movies_location)
+        rename_movie_folder(squad_movies_location)
         return True
     except OSError:
         print(OSError)
@@ -62,47 +60,14 @@ def get_squad_movie_path(squad_steam_path:str) -> str:
                                   )
     return movie_path
 
-def get_filenames_without_extension(filenames: object) -> object:
-    """
-    Removes the file extension from a list of file names.
-    """
-    return [file.split(".")[0] for file in filenames]
-
-def patch_file(filename: str, path: str) -> bool:
-    """
-    Patches a file to be unreferenceable by Squad.
-    """
-    try:
-        patched_filename = "zzz_"  + filename + ".mp4"
-        filename = filename + ".mp4"
-        os.rename(path / filename , path / patched_filename)
-        print(f"File patched from: {filename} to: {patched_filename}.")
-        return True
-    except OSError:
-        print(OSError)
 
 
-def rename_movies(path_to_movies: str) -> None:
+def rename_movie_folder(path_to_movies: str) -> None:
     """
-    Renames files in the Movies directory that affect startup.
+    Renames the movie folder that affect startup.
     """
-    dir_contents = get_filenames_without_extension(os.listdir(path_to_movies))
-    for full_filename in dir_contents:
-        patched = False
-        if full_filename in MOVIES and ("zzz_" + full_filename) not in dir_contents:
-            patched = patch_file(full_filename, path_to_movies)
-        elif "zzz" in full_filename and full_filename in dir_contents:
-            print(f"Patched file {full_filename} already exists.")
-        elif full_filename in dir_contents and "zzz_" + full_filename in dir_contents:
-            print(f"Patched file {full_filename} and unpatched file co-exist.")
-            try:
-                file_to_remove = "zzz_" + full_filename + ".mp4"
-                os.remove(path_to_movies / file_to_remove)
-                print(f"Removed zzz_{full_filename}")
-                patched = patch_file(full_filename, path_to_movies)
-            except OSError:
-                print(OSError)
-        else:
-            print(f"Unpatchable file {full_filename} exists.")
-        if patched:
-            dir_contents = get_filenames_without_extension(os.listdir(path_to_movies))
+    if pathlib.Path(path_to_movies).exists():
+        new_movie_dir = str(path_to_movies) + "_old"
+        os.rename(path_to_movies, new_movie_dir)
+    else:
+        print("Movies directory has already been renamed")
