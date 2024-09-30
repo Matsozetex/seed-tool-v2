@@ -5,7 +5,7 @@ import pathlib
 
 DIR = (pathlib.Path(os.getenv('LOCALAPPDATA'))) / 'SquadGame' / 'Saved' / 'Config' / 'WindowsNoEditor'
 
-MOVIES = ["squad_intro_movie", "squad_intro_movie_2", "squad_intro_movie_with_warning", "welcome_to_squad"]
+MOVIES = ["squad_intro_movie", "squad_intro_movie_2",  "welcome_to_squad"]
 
 NORMAL = "NormalGameUserSettings.ini"
 
@@ -16,7 +16,7 @@ GAME = 'GameUserSettings.ini'
 GPY = 368
 GPX = 512
 
-LOAD_TIMER = 60
+LOAD_TIMER = 75
 
 SETTINGS = """server_name=
 ;SEED_MODE
