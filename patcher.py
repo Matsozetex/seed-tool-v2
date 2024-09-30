@@ -89,7 +89,6 @@ def rename_movies(path_to_movies: str) -> None:
     dir_contents = get_filenames_without_extension(os.listdir(path_to_movies))
     for full_filename in dir_contents:
         patched = False
-        print(f"Current filename: {full_filename}")
         if full_filename in MOVIES and ("zzz_" + full_filename) not in dir_contents:
             patched = patch_file(full_filename, path_to_movies)
         elif "zzz" in full_filename and full_filename in dir_contents:
