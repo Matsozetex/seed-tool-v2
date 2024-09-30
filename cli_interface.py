@@ -20,6 +20,7 @@ def print_menu(seed, normal, server) -> None:
         4) Run game with auto-seed settings.
         5) Run game with seed settings. 
         6) Run game with normal settings. 
+        7) Patch game movies to skip execution.
         """
     print(menu)
 
@@ -51,6 +52,8 @@ def menu_handler(ini_dir: FileHandler):
             case "6":
                 user_actions.run_normal(ini_dir)
                 break
+            case "7":
+                user_actions.run_patcher()
             case _:
                 print("Invalid option.")
         status = user_actions.get_file_status(ini_dir)

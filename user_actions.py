@@ -7,6 +7,7 @@ from file_handler import FileHandler
 from launch_squad import run_squad
 from const import LOAD_TIMER
 from mouse_mover import make_movements
+from patcher import patch_movies
 
 def get_file_status(handler: FileHandler) -> list:
     """
@@ -63,3 +64,12 @@ def run_normal(handler: FileHandler):
     handler.switch_ini("normal")
     run_squad()
     print("Running squad in Seed mode")
+
+def run_patcher():
+    """
+    Run the file patcher for movies.
+    """
+    if patch_movies():
+        print("Movies patched successfully")
+    else:
+        print("Movies failed to patch")
