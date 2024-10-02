@@ -14,7 +14,7 @@ GAME = 'GameUserSettings.ini'
 GPY = 368
 GPX = 512
 
-LOAD_TIMER = 60
+LOAD_TIMER = 75
 
 SETTINGS = """server_name=
 ;SEED_MODE

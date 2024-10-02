@@ -54,6 +54,13 @@ def argument_handler()-> None:
         action='store_const',
         const=1
     )
+    exclusive_group.add_argument(
+        '-p',
+        '--patch',
+        help='patches the Movies folder to skip startup cinematics',
+        action='store_const',
+        const=1
+    )
     args = parser.parse_args()
     return args
 
@@ -79,3 +86,5 @@ def argument_logic(args, handler: FileHandler) -> None:
         print(f"Seed exists: {status['s']} | Normal exists: {status['n']} | Server name: {status['h']}")
     elif args.auto is not None:
         user_actions.run_auto_seed(handler)
+    elif args.patch is not None:
+        user_actions.run_patcher()
