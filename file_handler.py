@@ -99,13 +99,18 @@ class FileHandler:
         """
         Finds the desired server name
         """
-        with open(self.seed, "r+", encoding="UTF-8") as file:
-            first_line=file.readline()
-            match = re.search("^server_name=(.*)$", first_line)
-            if match is not None:
-                return match.group()[12:]
-            else:
-                return 'None'
+        server_name = ""
+        if os.path.isfile(self.seed):
+            with open(self.seed, "r+", encoding="UTF-8") as file:
+                first_line=file.readline()
+                match = re.search("^server_name=(.*)$", first_line)
+                if match is not None:
+                    server_name =  match.group()[12:]
+                else:
+                    server_name = 'None'
+        else:
+            server_name = 'None'
+        return server_name
 
 def is_seed_ini(file_path) -> bool:
     """
